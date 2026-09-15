@@ -1,0 +1,50 @@
+{
+    "forecasting_performance": {
+        "r2_score": 0.9856,
+        "mae_mw": 362.68,
+        "rmse_mw": 457.38,
+        "mape_percent": 1.22,
+        "baseline_r2": 0.9567,
+        "baseline_mae": 605.31
+    },
+    "cybersecurity_ids_performance": {
+        "detection_rate_recall": 0.9495,
+        "false_alarm_rate": 0.0409,
+        "precision": 0.5839,
+        "f1_score": 0.7231,
+        "true_positives": 188,
+        "false_positives": 134,
+        "true_negatives": 3139,
+        "false_negatives": 10,
+        "total_test_hours": 3471,
+        "attack_hours": 198,
+        "dynamic_threshold_3sigma_mw": 1057.35
+    },
+    "attack_type_breakdown": {
+        "FDI_SCALING": {
+            "total_attack_hours": 36,
+            "detected_hours": 36,
+            "recall": 1.0
+        },
+        "FDI_JITTER": {
+            "total_attack_hours": 48,
+            "detected_hours": 46,
+            "recall": 0.9583333333333334
+        },
+        "DOS_LOAD_SURGE": {
+            "total_attack_hours": 24,
+            "detected_hours": 24,
+            "recall": 1.0
+        },
+        "ENERGY_THEFT": {
+            "total_attack_hours": 60,
+            "detected_hours": 60,
+            "recall": 1.0
+        },
+        "TELEMETRY_REPLAY": {
+            "total_attack_hours": 30,
+            "detected_hours": 22,
+            "recall": 0.7333333333333333
+        }
+    }
+}

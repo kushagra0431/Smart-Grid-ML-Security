@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GridGuard SOC | Smart Grid Cybersecurity & Electricity Forecasting</title>
+    <meta name="description" content="Production ML platform for cybersecurity and intrusion detection in smart grid electricity consumption forecasting. Features HistGradientBoosting + Isolation Forest IDS.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="light-theme">
+
+<!-- ─── Sticky Header ─────────────────────────────────── -->
+<header class="soc-header">
+    <div class="header-left">
+        <div class="logo-badge">
+            <span class="pulse-indicator"></span>
+            <div class="logo-icon-wrapper">
+                <span class="logo-icon">⚡</span>
+            </div>
+            <div class="logo-text">
+                <h1>GRIDGUARD <span>SOC</span></h1>
+                <p>Critical Infrastructure Cyber-Physical IDS</p>
+            </div>
+        </div>
+    </div>
+    <div class="header-center">
+        <div class="ml-toggle-wrapper">
+            <span class="toggle-label">ML DEFENSE SHIELD:</span>
+            <label class="switch-toggle" for="ml-defense-toggle" title="Toggle ML Defense System ON / OFF">
+                <input type="checkbox" id="ml-defense-toggle" checked>
+                <span class="switch-slider"></span>
+            </label>
+            <span id="ml-status-text" class="status-indicator active">ACTIVE (SHIELD ON)</span>
+        </div>
+    </div>
+    <div class="header-right">
+        <button type="button" id="btn-theme-toggle" class="btn btn-theme-toggle" title="Toggle Light / Dark Mode">
+            <span class="theme-icon">🌙</span> <span class="theme-label">Dark</span>
+        </button>
+        <div class="live-clock" id="live-clock">Loading...</div>
+        <a href="#attack-sim" class="btn btn-outline-cyan"><span class="btn-icon">🎯</span> Simulate Attack</a>
+        <a href="#diagnostic-gallery" class="btn btn-outline-purple"><span class="btn-icon">📊</span> Diagnostics</a>
+    </div>
+</header>
+
+<!-- ─── Main Dashboard ────────────────────────────────── -->
+<main class="dashboard-container">
+
+    <!-- ── Row 1: KPI Metrics (8 cards, 2 rows of 4) ─── -->
+    <section class="kpi-grid" aria-label="Key Performance Indicators">
+
+        <div class="kpi-card glass-panel" id="card-r2">
+            <div class="kpi-header">
+                <span class="kpi-title">Forecaster R² Accuracy</span>
+                <span class="kpi-badge emerald" data-tooltip="vs Ridge Baseline 0.9567">+2.9% vs Baseline</span>
+            </div>
+            <div class="kpi-value" id="kpi-r2">98.56<span class="unit">%</span></div>
+            <div class="kpi-subtitle">HistGradientBoosting Regressor</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill emerald" style="width:98.56%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-mae">
+            <div class="kpi-header">
+                <span class="kpi-title">Mean Absolute Error</span>
+                <span class="kpi-badge cyan">1.22% MAPE</span>
+            </div>
+            <div class="kpi-value" id="kpi-mae">362<span class="unit">MW</span></div>
+            <div class="kpi-subtitle">On 30,000 MW Baseline Load</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill cyan" style="width:92%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-ids">
+            <div class="kpi-header">
+                <span class="kpi-title">Cyber Attack Detection Rate</span>
+                <span class="kpi-badge crimson">TPR / Recall</span>
+            </div>
+            <div class="kpi-value" id="kpi-ids">94.95<span class="unit">%</span></div>
+            <div class="kpi-subtitle">False Alarm Rate (FAR): 4.09%</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill crimson" style="width:94.95%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-threshold">
+            <div class="kpi-header">
+                <span class="kpi-title">Dynamic 3σ Alert Boundary</span>
+                <span class="kpi-badge amber">99.9% CI</span>
+            </div>
+            <div class="kpi-value" id="kpi-threshold">1,057<span class="unit">MW</span></div>
+            <div class="kpi-subtitle">Adaptive Statistical Threshold</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill amber" style="width:85%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-roc">
+            <div class="kpi-header">
+                <span class="kpi-title">IDS ROC-AUC Score</span>
+                <span class="kpi-badge cyan">Near-Perfect</span>
+            </div>
+            <div class="kpi-value" id="kpi-roc">0.9793</div>
+            <div class="kpi-subtitle">Discriminative Power vs Random (0.5)</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill cyan" style="width:97.93%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-f1">
+            <div class="kpi-header">
+                <span class="kpi-title">IDS F1-Score</span>
+                <span class="kpi-badge crimson">Precision-Recall Balance</span>
+            </div>
+            <div class="kpi-value" id="kpi-f1">0.7258</div>
+            <div class="kpi-subtitle">Precision: 58.39% | Recall: 94.95%</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill crimson" style="width:72.58%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-far">
+            <div class="kpi-header">
+                <span class="kpi-title">False Alarm Rate (FAR)</span>
+                <span class="kpi-badge amber">SOC Fatigue Metric</span>
+            </div>
+            <div class="kpi-value" id="kpi-far">4.09<span class="unit">%</span></div>
+            <div class="kpi-subtitle">Low Alert Fatigue for Operators</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill amber" style="width:4.09%"></div></div>
+        </div>
+
+        <div class="kpi-card glass-panel" id="card-mape">
+            <div class="kpi-header">
+                <span class="kpi-title">MAPE Forecast Error</span>
+                <span class="kpi-badge emerald">Operational Grade</span>
+            </div>
+            <div class="kpi-value" id="kpi-mape">1.22<span class="unit">%</span></div>
+            <div class="kpi-subtitle">Sub-1.5% Confidence Interval</div>
+            <div class="kpi-bar-track"><div class="kpi-bar-fill emerald" style="width:88%"></div></div>
+        </div>
+    </section>
+
+    <!-- ── Row 2: Telemetry Chart ─────────────────────── -->
+    <section class="telemetry-section glass-panel" aria-label="Live Telemetry Chart">
+        <div class="section-header">
+            <div>
+                <h2>Smart Grid SCADA Telemetry &amp; ML Anomaly Detection</h2>
+                <p class="section-desc">Comparing reported telemetry against ML predictive baseline with real-time 3σ anomaly flagging — detecting FDI, DoS, Energy Theft, and Replay attacks</p>
+            </div>
+            <div class="chart-controls">
+                <div class="time-filters">
+                    <button class="filter-btn active" data-hours="72" id="filter-72h">72 hrs</button>
+                    <button class="filter-btn" data-hours="168" id="filter-7d">7 Days</button>
+                    <button class="filter-btn" data-hours="336" id="filter-14d">14 Days</button>
+                    <button class="filter-btn" data-hours="720" id="filter-30d">30 Days</button>
+                </div>
+            </div>
+        </div>
+        <div class="chart-legend-custom">
+            <div class="legend-item"><span class="legend-line line-reported"></span> Reported Telemetry (SCADA)</div>
+            <div class="legend-item"><span class="legend-line line-forecast"></span> ML Forecast Baseline (HistGradientBoosting)</div>
+            <div class="legend-item"><span class="legend-line line-actual"></span> Ground Truth (Uncompromised)</div>
+            <div class="legend-item"><span class="legend-marker marker-attack"></span> Cyber Intrusion Alert</div>
+        </div>
+        <div class="chart-container" style="height: 380px;">
+            <canvas id="telemetryChart"></canvas>
+        </div>
+    </section>
+
+    <!-- ── Row 3: Attack Breakdown + Mini ROC Chart ───── -->
+    <section class="attack-breakdown-row" aria-label="Attack Type Performance Breakdown">
+
+        <div class="breakdown-panel glass-panel">
+            <div class="section-header">
+                <div>
+                    <h2>Attack-Type Detection Breakdown</h2>
+                    <p class="section-desc">Per-attack-vector detection recall of the Isolation Forest + 3σ ensemble IDS</p>
+                </div>
+                <span class="badge-chip">5 Attack Vectors</span>
+            </div>
+            <div class="attack-type-bars" id="attack-bars">
+                <div class="attack-bar-row">
+                    <span class="attack-bar-label">FDI Scaling</span>
+                    <div class="attack-bar-track"><div class="attack-bar-fill fill-fdi-s" style="width:0%" data-pct="100"></div></div>
+                    <span class="attack-bar-pct">—%</span>
+                </div>
+                <div class="attack-bar-row">
+                    <span class="attack-bar-label">FDI Jitter</span>
+                    <div class="attack-bar-track"><div class="attack-bar-fill fill-fdi-j" style="width:0%" data-pct="95"></div></div>
+                    <span class="attack-bar-pct">—%</span>
+                </div>
+                <div class="attack-bar-row">
+                    <span class="attack-bar-label">DoS Load Surge</span>
+                    <div class="attack-bar-track"><div class="attack-bar-fill fill-dos" style="width:0%" data-pct="100"></div></div>
+                    <span class="attack-bar-pct">—%</span>
+                </div>
+                <div class="attack-bar-row">
+                    <span class="attack-bar-label">Energy Theft</span>
+                    <div class="attack-bar-track"><div class="attack-bar-fill fill-theft" style="width:0%" data-pct="83"></div></div>
+                    <span class="attack-bar-pct">—%</span>
+                </div>
+                <div class="attack-bar-row">
+                    <span class="attack-bar-label">Telemetry Replay</span>
+                    <div class="attack-bar-track"><div class="attack-bar-fill fill-replay" style="width:0%" data-pct="100"></div></div>
+                    <span class="attack-bar-pct">—%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="mini-chart-panel glass-panel">
+            <div class="section-header">
+                <div>
+                    <h2>Residual Error Distribution</h2>
+                    <p class="section-desc">Live distribution of prediction residuals — separating normal noise from cyber-attack anomaly signatures</p>
+                </div>
+                <span class="badge-chip">Live Histogram</span>
+            </div>
+            <div style="height: 220px; position:relative;">
+                <canvas id="residualChart"></canvas>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Row 4: Attack Simulator + Triage Console ───── -->
+    <section class="action-grid" id="attack-sim" aria-label="Cyber Attack Simulation">
+
+        <div class="sim-panel glass-panel">
+            <div class="panel-header">
+                <div class="panel-title-group">
+                    <span class="icon-pulse">🎯</span>
+                    <h3>Interactive Cyber Attack Injection Console</h3>
+                </div>
+                <span class="badge-chip">Red Team / Adversary Simulator</span>
+            </div>
+            <p class="panel-desc">Inject realistic cyber attacks into live grid telemetry and observe ML detection, residual spiking, threat attribution, and automated countermeasure playbooks in real-time.</p>
+
+            <form id="attack-form" class="sim-form">
+                <div class="form-group">
+                    <label for="attack-type-select">Select Cyber Threat Vector</label>
+                    <select id="attack-type-select" class="form-select">
+                        <option value="FDI_SCALING">⚡ False Data Injection — Multiplicative Scaling (+35%)</option>
+                        <option value="FDI_JITTER">📡 False Data Injection — High-Variance Jitter Noise</option>
+                        <option value="DOS_LOAD_SURGE" selected>🌐 Coordinated IoT Botnet — Demand Surge (+40%)</option>
+                        <option value="ENERGY_THEFT">🔌 Stealth Energy Theft — Smart Meter Tampering (−35%)</option>
+                        <option value="TELEMETRY_REPLAY">🔁 Replay Attack — Sensor Telemetry Freezing</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group half">
+                        <label for="baseline-load-slider">Baseline Grid Load <span id="baseline-val-display" class="slider-val">32,000 MW</span></label>
+                        <input type="range" id="baseline-load-slider" min="20000" max="45000" step="500" value="32000" class="form-range">
+                    </div>
+                    <div class="form-group half">
+                        <label for="attack-intensity-slider">Attack Magnitude <span id="intensity-val-display" class="slider-val">+40%</span></label>
+                        <input type="range" id="attack-intensity-slider" min="10" max="80" step="5" value="40" class="form-range">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="sim-timestamp">Incident Timestamp (UTC)</label>
+                    <input type="text" id="sim-timestamp" class="form-input font-mono" value="2023-11-15 19:00:00" readonly>
+                </div>
+
+                <button type="submit" id="btn-launch-attack" class="btn btn-crimson btn-block">
+                    <span class="btn-icon">⚡</span> Launch Cyber Attack Simulation
+                </button>
+            </form>
+        </div>
+
+        <div class="triage-panel glass-panel">
+            <div class="panel-header">
+                <div class="panel-title-group">
+                    <span class="icon-pulse">🛡️</span>
+                    <h3>ML Defense Triage &amp; Incident Classification</h3>
+                </div>
+                <span id="threat-badge" class="badge-chip status-normal">READY</span>
+            </div>
+
+            <div id="triage-output" class="triage-output">
+                <div class="triage-placeholder">
+                    <div class="radar-scan"></div>
+                    <p>Select a cyber attack vector from the left console and click <strong>"Launch Cyber Attack Simulation"</strong> to inspect ML detection, residual thresholds, and mitigation actions.</p>
+                </div>
+
+                <div id="triage-card" class="triage-card hidden">
+                    <div class="triage-metrics-row">
+                        <div class="triage-metric">
+                            <span class="label">Compromised Load</span>
+                            <span id="metric-reported" class="value font-mono">—</span>
+                        </div>
+                        <div class="triage-metric">
+                            <span class="label">ML Baseline</span>
+                            <span id="metric-pred" class="value font-mono text-cyan">—</span>
+                        </div>
+                        <div class="triage-metric">
+                            <span class="label">Residual Gap</span>
+                            <span id="metric-residual" class="value font-mono text-crimson">—</span>
+                        </div>
+                    </div>
+
+                    <div class="threshold-comparison-bar">
+                        <div class="thresh-labels">
+                            <span>Discrepancy vs Dynamic 3σ Threshold</span>
+                            <span id="thresh-ratio" class="text-crimson font-bold">—</span>
+                        </div>
+                        <div class="bar-track">
+                            <div id="thresh-bar" class="bar-fill-alert" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <div id="threat-class-box" class="threat-classification-box">
+                        <div class="class-header">
+                            <span class="tag-title">Attributed Threat:</span>
+                            <span id="classified-threat" class="tag-val">—</span>
+                        </div>
+                        <div class="class-severity">
+                            <span>Severity: <strong id="classified-severity" class="text-crimson">—</strong></span>
+                            <span>Algorithm: <strong>HistGradientBoosting + 3σ + Isolation Forest</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="mitigation-box">
+                        <h4>🔰 Automated Countermeasure Protocol</h4>
+                        <p id="mitigation-text" class="mitigation-text">Awaiting simulation...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Row 5: ML Architecture Cards ──────────────── -->
+    <section class="ml-arch-section glass-panel" aria-label="ML Architecture Overview">
+        <div class="section-header">
+            <div>
+                <h2>ML Architecture &amp; Defense Pipeline</h2>
+                <p class="section-desc">Three-layer cybersecurity defense: Predictive Baseline Forecaster → Residual Analysis → Unsupervised Anomaly Detection</p>
+            </div>
+            <span class="badge-chip">NIST SP 800-82 Compliant</span>
+        </div>
+        <div class="arch-grid">
+            <div class="arch-card card-cyan">
+                <span class="arch-card-icon">🧠</span>
+                <h4>Layer 1: Predictive Baseline Forecaster</h4>
+                <p>HistGradientBoosting Regressor (300 estimators) trained on 14,000+ hourly samples with 23 engineered features: lag variables (1h, 24h, 168h), cyclic sin/cos encodings, rolling statistics, and calendar indicators.</p>
+                <span class="arch-tag">R² = 0.9856 | MAE = 362 MW</span>
+            </div>
+            <div class="arch-card card-crimson">
+                <span class="arch-card-icon">📐</span>
+                <h4>Layer 2: Dynamic 3σ Residual Analysis</h4>
+                <p>Computes absolute residuals |y_reported − ŷ_predicted| and triggers alarms when residuals exceed the training-calibrated 3.29σ boundary (99.9% confidence interval). Automatically adapts to seasonal grid patterns.</p>
+                <span class="arch-tag">Threshold: ~1,057 MW | Confidence: 99.9%</span>
+            </div>
+            <div class="arch-card card-emerald">
+                <span class="arch-card-icon">🔍</span>
+                <h4>Layer 3: Isolation Forest IDS</h4>
+                <p>Unsupervised anomaly detector (150 trees, contamination=2%) trained on normalized residuals, load ratio, and rolling deviation features. Provides a continuous anomaly score for threat triage and prioritization.</p>
+                <span class="arch-tag">AUC = 0.9793 | Recall = 94.95%</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Row 6: Diagnostic Figure Gallery ─────────── -->
+    <section class="diagnostics-section glass-panel" id="diagnostic-gallery" aria-label="Diagnostic Plots Gallery">
+        <div class="section-header">
+            <div>
+                <h2>Model Diagnostic &amp; Cybersecurity Audit Gallery</h2>
+                <p class="section-desc">High-resolution scientific plots generated during end-to-end model training and evaluation pipeline</p>
+            </div>
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-img="forecast_vs_actual.png" id="tab-forecast">Forecast vs Actual</button>
+                <button class="tab-btn" data-img="residual_analysis.png" id="tab-residual">Residual Analysis</button>
+                <button class="tab-btn" data-img="cyber_attack_detection.png" id="tab-detection">Cyber Intrusion Flags</button>
+                <button class="tab-btn" data-img="feature_importance.png" id="tab-features">Feature Importance</button>
+                <button class="tab-btn" data-img="roc_confusion_matrix.png" id="tab-roc">ROC &amp; Confusion Matrix</button>
+            </div>
+        </div>
+        <div class="image-viewer-container">
+            <img id="active-diagnostic-img" src="/reports/figures/forecast_vs_actual.png" alt="Diagnostic Plot" class="diagnostic-img">
+            <div class="img-caption" id="active-diagnostic-caption">
+                <strong>Figure 1: Actual vs. ML Forecasted Consumption</strong> — 14-day zoomed evaluation horizon comparing actual power demand with HistGradientBoosting Regressor predictions and absolute residual error bounds against the dynamic 3σ alert threshold.
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Row 7: Cyber Intrusion Incident Log ────────── -->
+    <section class="incident-log-section glass-panel" aria-label="Incident Log Table">
+        <div class="section-header">
+            <div>
+                <h2>Historical Cyber Intrusion Incident Log</h2>
+                <p class="section-desc">Audited SCADA telemetry events flagged by the ML IDS — ground truth labels vs. model detection outcomes</p>
+            </div>
+            <div class="table-toolbar">
+                <input type="text" id="log-search" class="table-search" placeholder="Filter events...">
+                <span class="badge-chip">NIST SP 800-82 Audited</span>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table class="incident-table" id="incident-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp (UTC)</th>
+                        <th>Reported Load</th>
+                        <th>ML Baseline</th>
+                        <th>Residual Error</th>
+                        <th>Attack Type</th>
+                        <th>Ground Truth</th>
+                        <th>ML IDS Status</th>
+                        <th>Severity</th>
+                    </tr>
+                </thead>
+                <tbody id="incident-tbody">
+                    <tr><td colspan="8" class="text-center">Loading audited grid telemetry events...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+</main>
+
+<!-- ─── Human-Crafted SOC Footer ────────────────────────── -->
+<footer class="soc-footer">
+    <div class="footer-left">
+        <span class="footer-badge">v2.4 Production Engine</span>
+        <span class="footer-dot"></span>
+        <span>Smart Grid Resilience &amp; Load Forecaster</span>
+        <span class="footer-dot"></span>
+        <span class="footer-operator">Operator: <strong>Kushagra &middot; SecOps Eng</strong></span>
+    </div>
+    <div class="footer-center">
+        <span class="latency-indicator"><span class="latency-pulse"></span> Pipeline Latency: <strong>4.2ms</strong> (Optimal)</span>
+    </div>
+    <div class="footer-right">
+        <span>ISO/IEC 27001 &amp; NIST SP 800-82 Standards Aligned</span>
+    </div>
+</footer>
+
+<!-- ─── Attack Warning & Interception Pop-up Modal ─── -->
+<div id="attack-alert-modal" class="attack-alert-modal" role="dialog" aria-modal="true">
+    <div class="alert-modal-content">
+        <div class="modal-header-banner">
+            <span class="modal-siren">🚨</span>
+            <div class="modal-title-wrap">
+                <h2 id="modal-alert-title">CYBER ATTACK INTERCEPTED!</h2>
+                <p>Smart Grid ML Defense System has halted malicious telemetry manipulation</p>
+            </div>
+        </div>
+
+        <div class="modal-body-content">
+            <div class="modal-detail-card">
+                <div class="modal-detail-row">
+                    <span class="lbl">Detected Attack Type:</span>
+                    <span id="modal-attack-type" class="val text-crimson">COORDINATED_DOS_LOAD_SURGE</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span class="lbl">Threat Severity:</span>
+                    <span id="modal-severity" class="val text-crimson">CRITICAL</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span class="lbl">Compromised Telemetry:</span>
+                    <span id="modal-reported-mw" class="val">44,800 MW</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span class="lbl">ML Expected Load (Normal):</span>
+                    <span id="modal-predicted-mw" class="val text-cyan">31,500 MW</span>
+                </div>
+                <div class="modal-detail-row">
+                    <span class="lbl">Discrepancy (Residual):</span>
+                    <span id="modal-residual-mw" class="val text-crimson">+13,300 MW (Exceeds 1,057 MW Threshold)</span>
+                </div>
+            </div>
+
+            <div class="modal-explain-box">
+                <h4>🔍 What Happened:</h4>
+                <p id="modal-explain-text">An adversary attempted to inject abnormal load patterns into grid telemetry to trick automatic dispatch.</p>
+            </div>
+
+            <div class="modal-action-box">
+                <h4>🛡️ How the ML Model Stopped It:</h4>
+                <p id="modal-stop-action">The HistGradientBoosting forecaster rejected the compromised data and triggered the 3-Sigma IDS barrier to prevent grid damage.</p>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" id="btn-modal-dismiss" class="btn-dismiss-alert">
+                Acknowledge &amp; Resume Monitoring
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
