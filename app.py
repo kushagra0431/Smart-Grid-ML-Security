@@ -1,6 +1,6 @@
 """
 Web Application & REST API for Smart Grid Cybersecurity & Electricity Forecasting.
-Deploys the trained forecasting model and intrusion detection engine on Antigravity,
+Deploys the trained forecasting model and intrusion detection engine for critical infrastructure operations,
 providing real-time inference, historical telemetry auditing, and interactive cyber attack simulation.
 """
 
@@ -17,6 +17,9 @@ from src.cyber_attacks import CyberAttackSimulator
 
 app = Flask(__name__, static_folder="static", template_folder="static")
 CORS(app)
+
+# Custom domain configuration (supports environment variable or enterprise DNS mapping)
+CUSTOM_DOMAIN = os.environ.get("GRIDGUARD_DOMAIN", "soc.gridguard.internal")
 
 # Initialize Inference Engine
 MODELS_DIR = "models"
@@ -43,6 +46,24 @@ def index():
     return send_from_directory("static", "index.html")
 
 
+@app.route("/privacy")
+def privacy():
+    """Serves the Data Protection & SCADA Telemetry Privacy Policy."""
+    return send_from_directory("static", "privacy.html")
+
+
+@app.route("/terms")
+def terms():
+    """Serves the Operational Use Terms and Conditions."""
+    return send_from_directory("static", "terms.html")
+
+
+@app.route("/favicon.ico")
+def favicon():
+    """Serves the application favicon."""
+    return send_from_directory("static", "favicon.ico")
+
+
 @app.route("/reports/figures/<path:filename>")
 def serve_figure(filename):
     """Serves generated diagnostic figures."""
@@ -61,6 +82,7 @@ def api_status():
     return jsonify({
         "status": "OPERATIONAL",
         "system_name": "GridGuard SOC - Smart Grid Cyber-Physical Intrusion Detection System",
+        "custom_domain": CUSTOM_DOMAIN,
         "version": "2.0.0",
         "model_architecture": "HistGradientBoosting Regressor + Isolation Forest IDS",
         "baseline_model": "Ridge Linear Regressor",

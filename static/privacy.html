@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - GridGuard SOC</title>
+    <meta name="description" content="GridGuard SOC Data Protection, SCADA Telemetry Governance, and Privacy Policy for critical infrastructure operations.">
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="alternate icon" href="/static/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .legal-page-container {
+            max-width: 960px;
+            margin: 40px auto;
+            padding: 0 24px 60px;
+        }
+        .legal-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            color: var(--text-primary);
+        }
+        .legal-card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+        }
+        .legal-meta {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .legal-card h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: var(--accent-cyan);
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: 10px;
+        }
+        .legal-card p, .legal-card li {
+            font-size: 14px;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+        .legal-card ul {
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+        .legal-nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+        .nav-link-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            background: var(--bg-surface);
+            transition: all var(--transition-fast);
+        }
+        .nav-link-btn:hover {
+            color: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+        }
+    </style>
+</head>
+<body class="light-theme">
+
+<header class="soc-header">
+    <div class="header-left">
+        <a href="/" class="logo-badge" style="text-decoration: none;">
+            <div class="logo-icon-wrapper">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M13 10l-2 4h3l-2 4"/>
+                </svg>
+            </div>
+            <div class="logo-text">
+                <h1>GRIDGUARD <span>SOC</span></h1>
+                <p>Critical Infrastructure Cyber-Physical IDS</p>
+            </div>
+        </a>
+    </div>
+    <div class="header-right">
+        <a href="/" class="btn btn-outline-cyan">Operations Center</a>
+        <a href="/terms" class="btn btn-outline-cyan">Terms of Service</a>
+        <button type="button" id="btn-theme-toggle" class="btn btn-theme-toggle" title="Toggle Theme">
+            <span class="theme-label">Dark</span>
+        </button>
+    </div>
+</header>
+
+<main class="legal-page-container">
+    <div class="legal-nav-bar">
+        <a href="/" class="nav-link-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Return to Operations Dashboard
+        </a>
+        <span class="badge-chip">Document ID: POL-SEC-2026-V2</span>
+    </div>
+
+    <article class="legal-card">
+        <h1>Data Protection &amp; SCADA Telemetry Privacy Policy</h1>
+        <div class="legal-meta">
+            Effective Date: October 2, 2026 | Scope: Operational Technology (OT) and SCADA Systems | Standard: NIST SP 800-82r3 &amp; NERC CIP
+        </div>
+
+        <h2>1. Overview and Scope</h2>
+        <p>
+            GridGuard SOC is an intrusion detection and load forecasting platform dedicated exclusively to monitoring bulk electric power grid telemetry. This Privacy Policy outlines the governance, ingestion protocols, and strict non-collection of personally identifiable information (PII) within this operations platform.
+        </p>
+
+        <h2>2. Non-Collection of Personal Data</h2>
+        <p>
+            GridGuard SOC operates at the transmission and regional distribution level. The system does not collect, process, store, or sell any consumer-level personal data, residential billing addresses, customer names, payment records, or household-level telemetry.
+        </p>
+        <ul>
+            <li><strong>Aggregated MegaWatt (MW) Data:</strong> Telemetry processed by the HistGradientBoosting and Isolation Forest models consists strictly of numerical, aggregated grid substation readings (such as regional PJM Interconnection demand).</li>
+            <li><strong>Time-Series Timestamps:</strong> Temporal identifiers correlate purely to standard operational timestamps (UTC / Eastern Time) required for autoregressive lag calculations.</li>
+            <li><strong>Zero Tracking Cookies:</strong> The GridGuard web platform does not utilize third-party analytics cookies, advertising pixels, or cross-site fingerprinting scripts. Client-side browser storage is restricted exclusively to UI preferences (such as operator light/dark theme selection).</li>
+        </ul>
+
+        <h2>3. Operational Telemetry and Machine Learning Processing</h2>
+        <p>
+            Incoming SCADA telemetry feeds are routed through memory-resident anomaly detection pipelines. Data points are evaluated against statistical 3-Sigma threshold envelopes and Isolation Forest tree ensembles to calculate prediction residuals.
+        </p>
+        <p>
+            Evaluated telemetry is recorded in local historical CSV logs for verification, compliance audits, and retrospective model drift evaluation. These logs are preserved in restricted-access directories under operational access controls.
+        </p>
+
+        <h2>4. Red Team Simulation Data</h2>
+        <p>
+            Data points generated during interactive red-team attack injection exercises (such as simulated False Data Injection, DoS surge, and energy theft) are maintained in transient operational memory and standard session tables. They are isolated from production control relays and do not contain external network data.
+        </p>
+
+        <h2>5. Compliance with Regulatory Standards</h2>
+        <p>
+            The architecture and data segregation practices of GridGuard SOC are designed to support compliance with:
+        </p>
+        <ul>
+            <li><strong>NERC CIP-005 (Electronic Security Perimeters):</strong> Ensuring inspection boundary telemetry remains segregated from external public networks.</li>
+            <li><strong>NERC CIP-007 (System Security Management):</strong> Restricting data manipulation interfaces to authorized operator roles.</li>
+            <li><strong>NIST SP 800-82 Revision 3:</strong> Adhering to federal industrial control system cybersecurity and privacy guidelines.</li>
+        </ul>
+
+        <h2>6. Security and Integrity Auditing</h2>
+        <p>
+            All system diagnostics, confusion matrix figures, and residual distributions are generated locally by offline model training jobs and served as static diagnostic artifacts. System integrity is verified via automated test suites without third-party cloud data transmission.
+        </p>
+
+        <h2>7. Policy Amendments and Contact</h2>
+        <p>
+            This data governance policy is reviewed on an annual cycle or upon deployment of major ML model versions. Inquiries regarding grid telemetry handling or operational audits should be directed to the designated Security Operations Center engineering team.
+        </p>
+    </article>
+</main>
+
+<footer class="soc-footer">
+    <div class="footer-left">
+        <span class="footer-badge">v2.4 Production Engine</span>
+        <span class="footer-dot"></span>
+        <span>GridGuard Cyber-Physical Defense</span>
+    </div>
+    <div class="footer-center">
+        <span><a href="/privacy" style="color: var(--accent-cyan); text-decoration: none;">Privacy Policy</a> | <a href="/terms" style="color: var(--text-secondary); text-decoration: none;">Terms of Service</a></span>
+    </div>
+    <div class="footer-right">
+        <span>NIST SP 800-82 &amp; NERC CIP Aligned</span>
+    </div>
+</footer>
+
+<script>
+// Simple theme toggle handler matching dashboard
+const themeBtn = document.getElementById('btn-theme-toggle');
+if (themeBtn) {
+    themeBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-theme');
+        const isLight = document.body.classList.contains('light-theme');
+        themeBtn.querySelector('.theme-label').textContent = isLight ? 'Dark' : 'Light';
+        localStorage.setItem('gridguard_theme', isLight ? 'light' : 'dark');
+    });
+    if (localStorage.getItem('gridguard_theme') === 'dark') {
+        document.body.classList.remove('light-theme');
+        themeBtn.querySelector('.theme-label').textContent = 'Light';
+    }
+}
+</script>
+</body>
+</html>
